@@ -1,0 +1,108 @@
+faça um prompt para a criar o chatgpt os capitulos de conceitos e metodologia do meu trabalho de conclusão do curso em Latex de engenharia da computação com o titulo Aplicação de Inteligência Artificial na Otimização de Perfis Aerodinâmicos para Asas e Hélices de Aeronaves, sugerindo mudanças na metodologia, adicionando partes relevantes que posso ter deixado de lado ou não dado a devida atenção e até mesmo retirando partes sem relevância para o trabalho:
+
+No trabalho terei 2 partes, a primeira sendo a otimização para as asas e a segunda para hélices. Na primeira parte, dividirei as otimizações em 2 fases de voo (decolagem, cruzeiro. O pouso será desconsiderado pelo fato de que no pouso pode-se colocar um ângulo maior no flap do perfil e ter mais arrasto para a desaceleração e as aeronaves a combustão estão mais leves) para a otimização de asas. Na segunda parte, a otimização dos perfis de hélices, terá somente os dados que o usuário irá colocar, deixando pro usuário analisar e colocar os dados do cenário de otimização. 
+Primeiro deverá ser feita uma automação para a obtenção dos perfis existentes para agilizar o processo das IAs. Para isso a automação baixará os perfis aerodinâmicos de uma das maiores bases gratuitas disponíveis (http://airfoiltools.com/).
+Após a obtenção dos perfis, começará o desenvolvimentos das etapas. 
+
+Para as asas:
+- Testar os perfis obtidos nas duas etapas de voo para servir como start point das otimizações, selecionando os 1% melhores perfis, a pontuação será dada pelo módulo da |área necessária da asa na decolagem/área necessária no cruzeiro - 1| * cl/cd de cruzeiro (as áreas serão calculadas pelo cl em que o cl/cd é máximo), deverá ser feita uma análise para o balanceamento dos pesos.
+- Os inputs serão: Velocidade, altitude, peso e corda média em cada etapa. Porém teremos a seguinte exceção:
+	- Decolagem: terá também 3 ângulos e 3 proporções (tamanho) da corda de flaps (simples)
+Definido assim os 1% melhores perfis, começará os algoritmos de IA:
+- escolher o numero de pontos a serem otimizados de cada perfil
+- para as redes neurais, cada ponto será um neurônio
+- para otimização evolutiva, cada perfil será um indivíduo, com os pontos sendo as características de cada indivíduo
+- a pontuação será a mesma utilizada no teste dos perfis existentes
+- o número de gerações será definida por testes preliminares para um cenário especifico.
+
+Para hélices:
+- Será escolhido o número de secções/perfis na hélice, no mínimo 2 secções: ponta e restante. (Deverá ser falado também, que esse estudo pode ser desenvolvido para no mínimo de 3 seções, com a adição da seção da raiz, sendo o perfil que acopla no hub um circulo, pois para hélices de outros materiais, sem ser compósitos, o circulo oferece maior resistência, mas como estamos trabalhando com materiais compósitos, não será abordado nesse trabalho)
+- os outros inputs do usuário serão: Velocidade de voo, incidência da hélice (para drones/VTOLs) com a direção do voo, diâmetro,torque máximo e RPM desse torque, altitude e número de pás.
+- o usuário poderá escolher também a curva de tração ao longo do comprimento da pá da hélice, podendo ser linear ou logarítmica, e com essa curva será definido qual será a área de cada secção.
+- cada secção/perfil terá uma otimização
+- A ponta sempre terá a geometria elíptica, por ser a geometria de maior eficiencia.
+- o restante, a área/comprimento de cada seção será proporcional a eficiencia de cada perfil (cl/cd).
+
+Considerações:
+Hélices: Deverá ser analisado se escolher os melhores perfis de cada seção antes, melhora ou piora o gasto computacional.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Crie os capítulos de **Conceitos** e **Metodologia** em LaTeX para um Trabalho de Conclusão de Curso em Engenharia da Computação, intitulado **"Aplicação de Inteligência Artificial na Otimização de Perfis Aerodinâmicos para Asas e Hélices de Aeronaves"**. O texto deve ser técnico, estruturado, claro e objetivo, com seções e subseções bem definidas. Considere as seguintes diretrizes e sugestões de aprimoramento:
+
+---
+
+### Capítulo de Conceitos
+
+1. **Fundamentos de Aerodinâmica**
+   - Explique conceitos essenciais: sustentação, arrasto, eficiência aerodinâmica, coeficientes \( C_L \) e \( C_D \), relação \( C_L/C_D \).
+   - Diferencie perfis de asas e hélices, destacando suas funções e requisitos distintos.
+   - Inclua breve explicação sobre fases do voo (decolagem, cruzeiro, pouso) e justifique a exclusão do pouso na otimização.
+
+2. **Perfis Aerodinâmicos**
+   - Descreva o que são perfis aerodinâmicos, principais parâmetros geométricos (cambagem, espessura, corda, etc.).
+   - Explique a importância dos flaps e como eles afetam o desempenho em diferentes fases do voo.
+
+3. **Otimização Computacional**
+   - Apresente os principais métodos de otimização aplicados em engenharia: algoritmos genéticos, redes neurais, otimização evolutiva.
+   - Explique o funcionamento básico do Xfoil e sua relevância para análise de perfis.
+
+4. **Inteligência Artificial em Engenharia**
+   - Conceitue IA, destacando aplicações em otimização de engenharia.
+   - Diferencie entre uso de redes neurais e algoritmos evolutivos para problemas de design aerodinâmico.
+
+---
+
+### Capítulo de Metodologia
+
+1. **Visão Geral da Metodologia**
+   - Explique a divisão do trabalho em duas partes: otimização de asas (duas fases de voo) e de hélices (inputs definidos pelo usuário).
+   - Justifique as escolhas metodológicas, como a exclusão do pouso.
+
+2. **Automação da Obtenção de Perfis**
+   - Detalhe o processo de automação para baixar perfis do [Airfoil Tools](http://airfoiltools.com/).
+   - Sugira incluir uma etapa de filtragem/validação dos perfis baixados (remover duplicados, perfis incompletos, etc.).
+
+3. **Metodologia para Otimização de Asas**
+   - **Pré-processamento e Seleção Inicial**
+     - Explique o teste dos perfis nas duas fases de voo.
+     - Detalhe o critério de seleção dos 1% melhores perfis, incluindo a fórmula de pontuação e a necessidade de balanceamento dos pesos.
+     - Sugira análise de sensibilidade dos pesos e possíveis ajustes.
+   - **Definição dos Inputs**
+     - Liste e explique os inputs: velocidade, altitude, peso, corda média, ângulos e proporções dos flaps para decolagem.
+     - Recomende padronização das unidades e validação dos dados de entrada.
+   - **Otimização com IA**
+     - Explique a escolha do número de pontos a serem otimizados em cada perfil.
+     - Detalhe a abordagem das redes neurais (cada ponto = neurônio) e da otimização evolutiva (cada perfil = indivíduo).
+     - Descreva o processo de avaliação e seleção, incluindo o critério de pontuação.
+     - Sugira testes preliminares para definir o número ideal de gerações e análise de convergência dos algoritmos.
+
+4. **Metodologia para Otimização de Hélices**
+   - **Definição das Seções da Hélice**
+     - Explique a escolha do número de seções (mínimo 2: ponta e restante) e a justificativa para não incluir a raiz circular (materiais compósitos).
+     - Sugira mencionar a possibilidade de expansão futura para 3 ou mais seções.
+   - **Inputs do Usuário**
+     - Liste e explique todos os inputs necessários: velocidade de voo, incidência, diâmetro, torque, RPM, altitude, número de pás, curva de tração.
+     - Recomende a criação de uma interface amigável para entrada dos dados.
+   - **Otimização das Seções**
+     - Detalhe como cada seção será otimizada individualmente.
+     - Explique a escolha da ponta elíptica e a proporcionalidade da área das seções à eficiência (\( C_L/C_D \)).
+     - Sugira análise de sensibilidade para o número de seções e a curva de tração.
+   - **Considerações Computacionais**
+     - Analise se a seleção prévia dos melhores perfis por seção reduz ou aumenta o custo computacional.
+     - Sugira benchmarks para comparar abordagens.
+
+5. **Validação e Análise dos Resultados**
+   - Explique como os resultados serão validados (comparação com métodos tradicionais, análise de desempenho, etc.).
+   - Sugira testes de robustez e generalização dos modelos de IA.
+
+6. **Possíveis Exclusões**
+   - Justifique a exclusão do pouso na otimização de asas.
+   - Sugira evitar detalhamento excessivo de aspectos não abordados (ex: raiz circular para hélices de materiais não compósitos).
+
+7. **Sugestões Adicionais**
+   - Recomende a inclusão de fluxogramas ou diagramas para ilustrar o fluxo metodológico.
+   - Sugira documentação detalhada do código e dos experimentos para reprodutibilidade.
+
+---
+
+**Importante:** Estruture o texto em seções e subseções LaTeX, utilizando comandos como `\chapter`, `\section`, `\subsection`, etc. Utilize listas, fórmulas matemáticas para critérios de seleção e tabelas/figuras quando pertinente. Adote linguagem formal e técnica, adequada para um TCC de Engenharia da Computação.

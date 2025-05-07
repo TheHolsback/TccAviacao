@@ -1,0 +1,46 @@
+% filepath: c:\Users\gabri\Documents\Ceub\tcc\sections\methodology.tex
+\chapter{Metodologia}
+
+\section{Visão Geral da Metodologia}
+A metodologia deste trabalho está estruturada em duas frentes principais: a otimização de asas, considerando as fases de decolagem e cruzeiro, e a otimização de hélices, com parâmetros definidos pelo usuário. A exclusão do pouso é justificada pela predominância de dispositivos hipersustentadores e pelo menor impacto dessa fase no desempenho global da aeronave \cite{raymer2018aircraft, abbott1959theory}. O fluxo metodológico foi delineado com base em referências clássicas e recentes sobre otimização aerodinâmica assistida por inteligência artificial \cite{oliveira2023, hasan2024, wu2024}.
+
+\section{Automação da Obtenção de Perfis}
+A obtenção dos perfis aerodinâmicos é realizada de forma automatizada via \textit{web scraping} do repositório Airfoil Tools (\url{http://airfoiltools.com/}), conforme metodologia empregada em trabalhos recentes \cite{oliveira2023}. Após o download, é executada uma etapa de filtragem e validação dos dados, removendo duplicatas, perfis incompletos ou inconsistentes, e garantindo a integridade do conjunto de dados para análise posterior. Essa etapa é fundamental para evitar vieses e garantir a robustez dos resultados \cite{abbott1959theory}.
+
+\section{Metodologia para Otimização de Asas}
+
+\subsection{Pré-processamento e Seleção Inicial}
+Cada perfil é testado nas duas fases de voo mais críticas para o desempenho global: decolagem e cruzeiro. Os testes são realizados utilizando ferramentas como o XFOIL, que permite a obtenção dos coeficientes aerodinâmicos em diferentes condições de contorno \cite{drela1989xfoil}. A seleção dos 1\% melhores perfis é baseada em uma pontuação composta:
+\[
+\text{Score} = w_1 \cdot \left(\frac{C_L}{C_D}\right)_{\text{decolagem}} + w_2 \cdot \left(\frac{C_L}{C_D}\right)_{\text{cruzeiro}}
+\]
+onde \(w_1\) e \(w_2\) são pesos ajustáveis conforme a importância relativa de cada fase. Recomenda-se a realização de análise de sensibilidade para definir os pesos ideais, conforme sugerido em \cite{oliveira2023, hasan2024}.
+
+\subsection{Definição dos Inputs}
+Os principais parâmetros de entrada (inputs) para a otimização das asas incluem: velocidade de voo, altitude, peso da aeronave, corda média, ângulos e proporções dos flaps para decolagem. Todos os dados são padronizados em unidades do Sistema Internacional (SI) e validados quanto à consistência, seguindo as melhores práticas de engenharia \cite{anderson2017fundamentals, raymer2018aircraft}.
+
+\subsection{Otimização com IA}
+O número de pontos a serem otimizados em cada perfil é definido conforme a complexidade geométrica e o grau de liberdade desejado. Na abordagem baseada em redes neurais, cada ponto do perfil é representado por um neurônio de saída, permitindo a modelagem direta da geometria \cite{wu2024, goodfellow2016deep}. Já na otimização evolutiva, cada indivíduo da população representa um perfil completo, e operadores genéticos são aplicados para explorar o espaço de soluções \cite{goldberg1989genetic, back1996evolutionary, oliveira2023}. O critério de avaliação é a pontuação definida anteriormente, e testes preliminares são realizados para determinar o número ideal de gerações e analisar a convergência dos algoritmos, conforme recomendado em \cite{hasan2024, wu2024}.
+
+\section{Metodologia para Otimização de Hélices}
+
+\subsection{Definição das Seções da Hélice}
+A hélice é dividida em no mínimo duas seções: ponta e restante, desconsiderando a raiz circular devido ao uso de materiais compósitos, o que permite maior flexibilidade estrutural e aerodinâmica \cite{raymer2018aircraft}. A possibilidade de expansão futura para três ou mais seções é prevista para aumentar a granularidade da otimização, conforme abordagens recentes \cite{wu2024}.
+
+\subsection{Inputs do Usuário}
+Os inputs necessários para a otimização  das hélices incluem: velocidade de voo, ângulo de incidência, diâmetro, torque, RPM, altitude, número de pás e curva de tração. Recomenda-se o desenvolvimento de uma interface amigável para entrada desses dados, visando minimizar erros de entrada e facilitar a replicação dos experimentos \cite{wu2024, raymer2018aircraft}.
+
+\subsection{Otimização das Seções}
+Cada seção da hélice é otimizada individualmente, adotando ponta elíptica e proporcionalidade da área das seções à eficiência (\(C_L/C_D\)), conforme práticas consagradas em aerodinâmica \cite{anderson2017fundamentals, abbott1959theory}. A análise de sensibilidade para o número de seções e para a curva de tração é recomendada para avaliar o impacto dessas variáveis no desempenho final \cite{wu2024}.
+
+\subsection{Considerações Computacionais}
+A seleção prévia dos melhores perfis por seção pode reduzir significativamente o custo computacional, ao restringir o espaço de busca a soluções promissoras. No entanto, benchmarks devem ser realizados para comparar abordagens alternativas e garantir que não haja perda de diversidade ou qualidade nas soluções finais \cite{oliveira2023, hasan2024}.
+
+\section{Validação e Análise dos Resultados}
+A validação dos resultados é realizada por meio de comparação com métodos tradicionais de projeto, análise de desempenho aerodinâmico e testes de robustez dos modelos de IA. Recomenda-se a realização de testes de generalização, aplicando os modelos a cenários distintos para avaliar sua capacidade preditiva e adaptabilidade \cite{hasan2024, wu2024, goodfellow2016deep}.
+
+\section{Possíveis Exclusões}
+A otimização do pouso foi excluída devido à sua baixa relevância para o desempenho global e à predominância de dispositivos hipersustentadores nessa fase \cite{raymer2018aircraft}. Aspectos não abordados, como a raiz circular em hélices de materiais não compósitos, não serão detalhados, conforme delimitação do escopo deste trabalho.
+
+\section{Sugestões Adicionais}
+Recomenda-se a inclusão de fluxogramas e diagramas para ilustrar o fluxo metodológico, facilitando a compreensão e a replicação do processo. Além disso, a documentação detalhada do código e dos experimentos é fundamental para garantir a reprodutibilidade dos resultados, conforme boas práticas em pesquisas de otimização e IA \cite{goodfellow2016deep, oliveira2023}.
