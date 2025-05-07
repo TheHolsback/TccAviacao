@@ -1,0 +1,47 @@
+# Arquivos auxiliares do LaTeX
+*.aux
+*.bbl
+*.blg
+*.brf
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.ist
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.nav
+*.snm
+*.vrb
+*.xdv
+
+# Arquivos temporários e de backup
+*~
+*.bak
+*.backup
+*.tmp
+
+# PDFs e arquivos de saída
+*.pdf
+*.dvi
+*.ps
+
+# Diretórios comuns de build
+_build/
+build/
+output/
+out/
+
+# Arquivos do VS Code
+.vscode/
