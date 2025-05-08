@@ -2,26 +2,51 @@
 \chapter{Metodologia}
 
 \section{Visão Geral da Metodologia}
-A metodologia deste trabalho está estruturada em duas frentes principais: a otimização de asas, considerando as fases de decolagem e cruzeiro, e a otimização de hélices, com parâmetros definidos pelo usuário. A exclusão do pouso é justificada pela predominância de dispositivos hipersustentadores e pelo menor impacto dessa fase no desempenho global da aeronave \cite{raymer2018aircraft, abbott1959theory}. O fluxo metodológico foi delineado com base em referências clássicas e recentes sobre otimização aerodinâmica assistida por inteligência artificial \cite{oliveira2023, hasan2024, wu2024}.
+A metodologia deste trabalho está estruturada em duas frentes principais: a otimização de asas, considerando as fases de decolagem e cruzeiro, e a otimização de hélices, com parâmetros definidos pelo usuário. O fluxo metodológico foi delineado com base em referências clássicas e recentes sobre otimização aerodinâmica assistida por inteligência artificial \cite{oliveira2023, hasan2024, wu2024}.
 
 \section{Automação da Obtenção de Perfis}
 A obtenção dos perfis aerodinâmicos é realizada de forma automatizada via \textit{web scraping} do repositório Airfoil Tools (\url{http://airfoiltools.com/}), conforme metodologia empregada em trabalhos recentes \cite{oliveira2023}. Após o download, é executada uma etapa de filtragem e validação dos dados, removendo duplicatas, perfis incompletos ou inconsistentes, e garantindo a integridade do conjunto de dados para análise posterior. Essa etapa é fundamental para evitar vieses e garantir a robustez dos resultados \cite{abbott1959theory}.
 
 \section{Metodologia para Otimização de Asas}
+\subsection{Definição dos Inputs}
+\label{subsec:inputs}
+Os principais parâmetros de entrada (inputs) para a otimização das asas incluem: velocidade de voo, altitude, peso da aeronave, corda média aerodinâmica, ângulos e proporções dos flaps para decolagem. Todos os dados são padronizados em unidades do Sistema Internacional (SI) e validados quanto à consistência, seguindo as melhores práticas de engenharia \cite{anderson2017fundamentals, raymer2018aircraft}.
 
 \subsection{Pré-processamento e Seleção Inicial}
-Cada perfil é testado nas duas fases de voo mais críticas para o desempenho global: decolagem e cruzeiro. Os testes são realizados utilizando ferramentas como o XFOIL, que permite a obtenção dos coeficientes aerodinâmicos em diferentes condições de contorno \cite{drela1989xfoil}. A seleção dos 1\% melhores perfis é baseada em uma pontuação composta:
+\label{sub:pontuacao}
+Cada perfil é testado nas duas fases de voo mais críticas para o desempenho global: decolagem e cruzeiro. Os testes são realizados utilizando a ferramenta XFOIL, que permite a obtenção dos coeficientes aerodinâmicos em diferentes condições de contorno \cite{drela1989xfoil}. A seleção dos 1\% melhores perfis é baseada em uma pontuação composta:
 \[
-\text{Score} = w_1 \cdot \left(\frac{C_L}{C_D}\right)_{\text{decolagem}} + w_2 \cdot \left(\frac{C_L}{C_D}\right)_{\text{cruzeiro}}
+\text{Score} = \left| \frac{\text{Área}{\text{decolagem}}}{\text{Área}{\text{cruzeiro}}} - 1 \right|^{w_1} \cdot \left(\frac{C_L}{C_D}\right)_{\text{cruzeiro}}^{w_2}
 \]
-onde \(w_1\) e \(w_2\) são pesos ajustáveis conforme a importância relativa de cada fase. Recomenda-se a realização de análise de sensibilidade para definir os pesos ideais, conforme sugerido em \cite{oliveira2023, hasan2024}.
+Onde \(w_1\) e \(w_2\) são pesos ajustáveis conforme a importância relativa de cada critério. Os pesos serão ajustados para que ambos os valores sejam considerados na otimização, evitando que o processo foque apenas em um dos objetivos. Recomenda-se a realização de análise de sensibilidade para definir os pesos ideais, conforme sugerido em \cite{oliveira2023, hasan2024}.
+As áreas necessárias para decolagem e cruzeiro são calculadas no ponto em que a razão \(\frac{C_l}{C_d}\) é máxima para cada fase, utilizando os parâmetros de entrada definidos na Seção~\ref{subsec:inputs}. O cálculo da área é realizado a partir da Equação~\eqref{eq:sustentacao}, que relaciona a sustentação, a densidade do ar, a velocidade, a área da asa e o coeficiente de sustentação:
 
-\subsection{Definição dos Inputs}
-Os principais parâmetros de entrada (inputs) para a otimização das asas incluem: velocidade de voo, altitude, peso da aeronave, corda média, ângulos e proporções dos flaps para decolagem. Todos os dados são padronizados em unidades do Sistema Internacional (SI) e validados quanto à consistência, seguindo as melhores práticas de engenharia \cite{anderson2017fundamentals, raymer2018aircraft}.
+\[
+ S = \frac{L}{\frac{1}{2} \rho V^2 C_L}
+\]
+
+Dessa forma, garante-se que a comparação entre os perfis seja feita considerando as condições mais favoráveis de desempenho aerodinâmico em cada fase do voo.
 
 \subsection{Otimização com IA}
-O número de pontos a serem otimizados em cada perfil é definido conforme a complexidade geométrica e o grau de liberdade desejado. Na abordagem baseada em redes neurais, cada ponto do perfil é representado por um neurônio de saída, permitindo a modelagem direta da geometria \cite{wu2024, goodfellow2016deep}. Já na otimização evolutiva, cada indivíduo da população representa um perfil completo, e operadores genéticos são aplicados para explorar o espaço de soluções \cite{goldberg1989genetic, back1996evolutionary, oliveira2023}. O critério de avaliação é a pontuação definida anteriormente, e testes preliminares são realizados para determinar o número ideal de gerações e analisar a convergência dos algoritmos, conforme recomendado em \cite{hasan2024, wu2024}.
+O número de pontos a serem otimizados em cada perfil é definido conforme a complexidade geométrica e o grau de liberdade desejado.
 
+No contexto deste trabalho, a inteligência artificial (IA) é empregada de duas formas principais: redes neurais e algoritmos genéticos. As redes neurais são utilizadas para prever rapidamente os coeficientes aerodinâmicos (\(C_L\) e \(C_D\)) de novos perfis, após treinamento com dados gerados pelo XFOIL. Isso permite acelerar a avaliação de milhares de geometrias, reduzindo o custo computacional do processo de otimização \cite{wu2024, goodfellow2016deep}. Além disso, redes neurais podem ser integradas ao processo evolutivo, servindo como função de avaliação (fitness) ou como geradoras de novos candidatos a partir de parâmetros geométricos.
+
+Já os algoritmos genéticos (AGs) são aplicados para explorar o espaço de soluções e identificar perfis ótimos. Cada indivíduo da população representa um perfil completo, codificado por seus parâmetros geométricos. O processo evolutivo envolve:
+
+\begin{itemize}
+    \item \textbf{População inicial}: gerada aleatoriamente ou a partir de perfis conhecidos, garantindo diversidade, como explicado em \ref{sec:pontuacao}.
+    \item \textbf{Seleção}: indivíduos com melhor desempenho (maior fitness) são escolhidos para reprodução. Métodos comuns incluem roleta, torneio e elitismo, sendo possível ajustar a pressão seletiva conforme desejado \cite{goldberg1989genetic}.
+    \item \textbf{Cruzamento (crossover)}: combina características de dois ou mais indivíduos para gerar descendentes, promovendo a exploração do espaço de busca.
+    \item \textbf{Mutação}: pequenas alterações aleatórias são aplicadas aos descendentes para evitar estagnação em ótimos locais. Os principais parâmetros de mutação são:
+    \begin{itemize}
+        \item \textbf{Chance de mutação}: probabilidade de um gene sofrer mutação, tipicamente entre 1\% e 10\%.
+        \item \textbf{Porcentagem máxima de mutação}: define o limite da alteração em cada parâmetro, evitando mudanças drásticas que possam inviabilizar o perfil.
+    \end{itemize}
+    \item \textbf{Critério de parada}: o algoritmo é interrompido após um número fixo de gerações ou quando a melhoria do score se torna insignificante \cite{back1996evolutionary, oliveira2023}.
+\end{itemize}
+
+Testes preliminares são realizados para definir o número ideal de gerações, o tamanho da população, a taxa de cruzamento e de mutação, bem como para analisar a convergência dos algoritmos \cite{hasan2024, wu2024}. A combinação de IA e algoritmos evolutivos permite uma busca eficiente por soluções ótimas, mesmo em espaços de alta dimensionalidade e com múltiplos objetivos, como ocorre na otimização de perfis aerodinâmicos.
 \section{Metodologia para Otimização de Hélices}
 
 \subsection{Definição das Seções da Hélice}
@@ -40,7 +65,7 @@ A seleção prévia dos melhores perfis por seção pode reduzir significativame
 A validação dos resultados é realizada por meio de comparação com métodos tradicionais de projeto, análise de desempenho aerodinâmico e testes de robustez dos modelos de IA. Recomenda-se a realização de testes de generalização, aplicando os modelos a cenários distintos para avaliar sua capacidade preditiva e adaptabilidade \cite{hasan2024, wu2024, goodfellow2016deep}.
 
 \section{Possíveis Exclusões}
-A otimização do pouso foi excluída devido à sua baixa relevância para o desempenho global e à predominância de dispositivos hipersustentadores nessa fase \cite{raymer2018aircraft}. Aspectos não abordados, como a raiz circular em hélices de materiais não compósitos, não serão detalhados, conforme delimitação do escopo deste trabalho.
+A exclusão do pouso é justificada pela predominância de dispositivos hipersustentadores e pelo menor impacto dessa fase no desempenho global da aeronave \cite{raymer2018aircraft, abbott1959theory}. Aspectos não abordados, como a raiz circular em hélices de materiais não compósitos, não serão detalhados, conforme delimitação do escopo deste trabalho.
 
 \section{Sugestões Adicionais}
 Recomenda-se a inclusão de fluxogramas e diagramas para ilustrar o fluxo metodológico, facilitando a compreensão e a replicação do processo. Além disso, a documentação detalhada do código e dos experimentos é fundamental para garantir a reprodutibilidade dos resultados, conforme boas práticas em pesquisas de otimização e IA \cite{goodfellow2016deep, oliveira2023}.
