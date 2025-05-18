@@ -21,7 +21,7 @@ Para hélices:
 - o usuário poderá escolher também a curva de tração ao longo do comprimento da pá da hélice, podendo ser linear ou logarítmica, e com essa curva será definido qual será a área de cada secção.
 - cada secção/perfil terá uma otimização
 - A ponta sempre terá a geometria elíptica, por ser a geometria de maior eficiencia.
-- o restante, a área/comprimento de cada seção será proporcional a eficiencia de cada perfil (cl/cd).
+- a raiz, a área/comprimento de cada seção será proporcional a eficiencia de cada perfil (cl/cd).
 
 Considerações:
 Hélices: Deverá ser analisado se escolher os melhores perfis de cada seção antes, melhora ou piora o gasto computacional.

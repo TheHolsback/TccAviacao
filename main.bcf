@@ -2379,51 +2379,54 @@
     <bcf:citekey order="5" intorder="1">anderson2017fundamentals</bcf:citekey>
     <bcf:citekey order="6" intorder="1">raymer2018aircraft</bcf:citekey>
     <bcf:citekey order="7" intorder="1">anderson2017fundamentals</bcf:citekey>
-    <bcf:citekey order="8" intorder="1">abbott1959theory</bcf:citekey>
-    <bcf:citekey order="9" intorder="1">anderson2017fundamentals</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">raymer2018aircraft</bcf:citekey>
+    <bcf:citekey order="7" intorder="2">raymer2018aircraft</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">anderson2017fundamentals</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">abbott1959theory</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">anderson2017fundamentals</bcf:citekey>
     <bcf:citekey order="11" intorder="1">raymer2018aircraft</bcf:citekey>
     <bcf:citekey order="12" intorder="1">raymer2018aircraft</bcf:citekey>
     <bcf:citekey order="13" intorder="1">raymer2018aircraft</bcf:citekey>
     <bcf:citekey order="14" intorder="1">raymer2018aircraft</bcf:citekey>
-    <bcf:citekey order="15" intorder="1">abbott1959theory</bcf:citekey>
-    <bcf:citekey order="16" intorder="1">raymer2018aircraft</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">raymer2018aircraft</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">abbott1959theory</bcf:citekey>
     <bcf:citekey order="17" intorder="1">raymer2018aircraft</bcf:citekey>
-    <bcf:citekey order="18" intorder="1">drela1989xfoil</bcf:citekey>
-    <bcf:citekey order="19" intorder="1">raymer2018aircraft</bcf:citekey>
-    <bcf:citekey order="19" intorder="2">abbott1959theory</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">raymer2018aircraft</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">drela1989xfoil</bcf:citekey>
     <bcf:citekey order="20" intorder="1">oliveira2023</bcf:citekey>
     <bcf:citekey order="20" intorder="2">hasan2024</bcf:citekey>
     <bcf:citekey order="20" intorder="3">wu2024</bcf:citekey>
     <bcf:citekey order="21" intorder="1">oliveira2023</bcf:citekey>
     <bcf:citekey order="22" intorder="1">abbott1959theory</bcf:citekey>
-    <bcf:citekey order="23" intorder="1">drela1989xfoil</bcf:citekey>
-    <bcf:citekey order="24" intorder="1">oliveira2023</bcf:citekey>
-    <bcf:citekey order="24" intorder="2">hasan2024</bcf:citekey>
-    <bcf:citekey order="25" intorder="1">anderson2017fundamentals</bcf:citekey>
-    <bcf:citekey order="25" intorder="2">raymer2018aircraft</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">anderson2017fundamentals</bcf:citekey>
+    <bcf:citekey order="23" intorder="2">raymer2018aircraft</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">drela1989xfoil</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">oliveira2023</bcf:citekey>
+    <bcf:citekey order="25" intorder="2">hasan2024</bcf:citekey>
     <bcf:citekey order="26" intorder="1">wu2024</bcf:citekey>
     <bcf:citekey order="26" intorder="2">goodfellow2016deep</bcf:citekey>
-    <bcf:citekey order="27" intorder="1">goldberg1989genetic</bcf:citekey>
-    <bcf:citekey order="27" intorder="2">back1996evolutionary</bcf:citekey>
-    <bcf:citekey order="27" intorder="3">oliveira2023</bcf:citekey>
-    <bcf:citekey order="28" intorder="1">hasan2024</bcf:citekey>
-    <bcf:citekey order="28" intorder="2">wu2024</bcf:citekey>
-    <bcf:citekey order="29" intorder="1">raymer2018aircraft</bcf:citekey>
-    <bcf:citekey order="30" intorder="1">wu2024</bcf:citekey>
-    <bcf:citekey order="31" intorder="1">wu2024</bcf:citekey>
-    <bcf:citekey order="31" intorder="2">raymer2018aircraft</bcf:citekey>
-    <bcf:citekey order="32" intorder="1">anderson2017fundamentals</bcf:citekey>
-    <bcf:citekey order="32" intorder="2">abbott1959theory</bcf:citekey>
+    <bcf:citekey order="27" intorder="1">goodfellow2016deep</bcf:citekey>
+    <bcf:citekey order="27" intorder="2">wu2024</bcf:citekey>
+    <bcf:citekey order="28" intorder="1">goldberg1989genetic</bcf:citekey>
+    <bcf:citekey order="29" intorder="1">back1996evolutionary</bcf:citekey>
+    <bcf:citekey order="29" intorder="2">oliveira2023</bcf:citekey>
+    <bcf:citekey order="30" intorder="1">hasan2024</bcf:citekey>
+    <bcf:citekey order="30" intorder="2">wu2024</bcf:citekey>
+    <bcf:citekey order="31" intorder="1">raymer2018aircraft</bcf:citekey>
+    <bcf:citekey order="32" intorder="1">wu2024</bcf:citekey>
     <bcf:citekey order="33" intorder="1">wu2024</bcf:citekey>
-    <bcf:citekey order="34" intorder="1">oliveira2023</bcf:citekey>
-    <bcf:citekey order="34" intorder="2">hasan2024</bcf:citekey>
-    <bcf:citekey order="35" intorder="1">hasan2024</bcf:citekey>
-    <bcf:citekey order="35" intorder="2">wu2024</bcf:citekey>
-    <bcf:citekey order="35" intorder="3">goodfellow2016deep</bcf:citekey>
-    <bcf:citekey order="36" intorder="1">raymer2018aircraft</bcf:citekey>
-    <bcf:citekey order="37" intorder="1">goodfellow2016deep</bcf:citekey>
-    <bcf:citekey order="37" intorder="2">oliveira2023</bcf:citekey>
+    <bcf:citekey order="33" intorder="2">raymer2018aircraft</bcf:citekey>
+    <bcf:citekey order="34" intorder="1">anderson2017fundamentals</bcf:citekey>
+    <bcf:citekey order="34" intorder="2">abbott1959theory</bcf:citekey>
+    <bcf:citekey order="35" intorder="1">wu2024</bcf:citekey>
+    <bcf:citekey order="36" intorder="1">oliveira2023</bcf:citekey>
+    <bcf:citekey order="36" intorder="2">hasan2024</bcf:citekey>
+    <bcf:citekey order="37" intorder="1">hasan2024</bcf:citekey>
+    <bcf:citekey order="37" intorder="2">wu2024</bcf:citekey>
+    <bcf:citekey order="37" intorder="3">goodfellow2016deep</bcf:citekey>
+    <bcf:citekey order="38" intorder="1">raymer2018aircraft</bcf:citekey>
+    <bcf:citekey order="38" intorder="2">abbott1959theory</bcf:citekey>
+    <bcf:citekey order="39" intorder="1">goodfellow2016deep</bcf:citekey>
+    <bcf:citekey order="39" intorder="2">oliveira2023</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

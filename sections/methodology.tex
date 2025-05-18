@@ -5,6 +5,7 @@
 A metodologia deste trabalho está estruturada em duas frentes principais: a otimização de asas, considerando as fases de decolagem e cruzeiro, e a otimização de hélices, com parâmetros definidos pelo usuário. O fluxo metodológico foi delineado com base em referências clássicas e recentes sobre otimização aerodinâmica assistida por inteligência artificial \cite{oliveira2023, hasan2024, wu2024}.
 
 \section{Automação da Obtenção de Perfis}
+\label{sec:automacao}
 A obtenção dos perfis aerodinâmicos é realizada de forma automatizada via \textit{web scraping} do repositório Airfoil Tools (\url{http://airfoiltools.com/}), conforme metodologia empregada em trabalhos recentes \cite{oliveira2023}. Após o download, é executada uma etapa de filtragem e validação dos dados, removendo duplicatas, perfis incompletos ou inconsistentes, e garantindo a integridade do conjunto de dados para análise posterior. Essa etapa é fundamental para evitar vieses e garantir a robustez dos resultados \cite{abbott1959theory}.
 
 \section{Metodologia para Otimização de Asas}
@@ -16,10 +17,10 @@ Os principais parâmetros de entrada (inputs) para a otimização das asas inclu
 \label{sub:pontuacao}
 Cada perfil é testado nas duas fases de voo mais críticas para o desempenho global: decolagem e cruzeiro. Os testes são realizados utilizando a ferramenta XFOIL, que permite a obtenção dos coeficientes aerodinâmicos em diferentes condições de contorno \cite{drela1989xfoil}. A seleção dos 1\% melhores perfis é baseada em uma pontuação composta:
 \[
-\text{Score} = \left| \frac{\text{Área}{\text{decolagem}}}{\text{Área}{\text{cruzeiro}}} - 1 \right|^{w_1} \cdot \left(\frac{C_L}{C_D}\right)_{\text{cruzeiro}}^{w_2}
+\text{Score} = \left| \frac{\text{S}_{\text{decolagem}}}{\text{S}_{\text{cruzeiro}}} - 1 \right|^{w_1} \cdot \left(\frac{C_L}{C_D}\right)_{\text{cruzeiro}}^{w_2}
 \]
 Onde \(w_1\) e \(w_2\) são pesos ajustáveis conforme a importância relativa de cada critério. Os pesos serão ajustados para que ambos os valores sejam considerados na otimização, evitando que o processo foque apenas em um dos objetivos. Recomenda-se a realização de análise de sensibilidade para definir os pesos ideais, conforme sugerido em \cite{oliveira2023, hasan2024}.
-As áreas necessárias para decolagem e cruzeiro são calculadas no ponto em que a razão \(\frac{C_l}{C_d}\) é máxima para cada fase, utilizando os parâmetros de entrada definidos na Seção~\ref{subsec:inputs}. O cálculo da área é realizado a partir da Equação~\eqref{eq:sustentacao}, que relaciona a sustentação, a densidade do ar, a velocidade, a área da asa e o coeficiente de sustentação:
+As áreas necessárias para decolagem e cruzeiro são calculadas no ponto em que a razão \(C_L/C_D\) é máxima para cada fase, utilizando os parâmetros de entrada definidos na Seção~\ref{subsec:inputs}. O cálculo da área é realizado a partir da Equação~\eqref{eq:sustentacao}, que relaciona a sustentação, a densidade do ar, a velocidade, a área da asa e o coeficiente de sustentação:
 
 \[
  S = \frac{L}{\frac{1}{2} \rho V^2 C_L}
@@ -28,14 +29,21 @@ As áreas necessárias para decolagem e cruzeiro são calculadas no ponto em que
 Dessa forma, garante-se que a comparação entre os perfis seja feita considerando as condições mais favoráveis de desempenho aerodinâmico em cada fase do voo.
 
 \subsection{Otimização com IA}
+\label{subsec:otimizacao}
 O número de pontos a serem otimizados em cada perfil é definido conforme a complexidade geométrica e o grau de liberdade desejado.
 
 No contexto deste trabalho, a inteligência artificial (IA) é empregada de duas formas principais: redes neurais e algoritmos genéticos. As redes neurais são utilizadas para prever rapidamente os coeficientes aerodinâmicos (\(C_L\) e \(C_D\)) de novos perfis, após treinamento com dados gerados pelo XFOIL. Isso permite acelerar a avaliação de milhares de geometrias, reduzindo o custo computacional do processo de otimização \cite{wu2024, goodfellow2016deep}. Além disso, redes neurais podem ser integradas ao processo evolutivo, servindo como função de avaliação (fitness) ou como geradoras de novos candidatos a partir de parâmetros geométricos.
 
+A escolha pelo uso de uma rede neural (RN) artificial, em vez de testar exaustivamente cada perfil aerodinâmico diretamente no XFOIL, justifica-se principalmente pelo ganho significativo em eficiência computacional e tempo de processamento. O XFOIL, embora seja uma ferramenta precisa e amplamente utilizada para análise de perfis aerodinâmicos, demanda tempo considerável para simular milhares de geometrias diferentes, especialmente em processos iterativos de otimização, como ocorre em algoritmos evolutivos.
+
+Ao treinar uma RN com dados previamente gerados pelo XFOIL, é possível criar um modelo preditivo capaz de estimar rapidamente os coeficientes aerodinâmicos (\(C_L\), \(C_D\)) de novos perfis, reduzindo drasticamente o número de chamadas ao simulador. Isso permite explorar um espaço de soluções muito maior em menos tempo, viabilizando a otimização de perfis com múltiplos parâmetros e restrições. Além disso, a RN pode ser continuamente aprimorada com novos dados, aumentando sua precisão ao longo do processo.
+
+Essa abordagem é respaldada na literatura, que destaca o uso de modelos de aprendizado de máquina para substituir simulações computacionalmente custosas em problemas de engenharia, acelerando o desenvolvimento e mantendo boa acurácia \cite{goodfellow2016deep, wu2024}. Portanto, a integração de redes neurais ao fluxo de trabalho representa uma solução eficiente, escalável e alinhada às tendências atuais em otimização aerodinâmica assistida por inteligência artificial.
+
 Já os algoritmos genéticos (AGs) são aplicados para explorar o espaço de soluções e identificar perfis ótimos. Cada indivíduo da população representa um perfil completo, codificado por seus parâmetros geométricos. O processo evolutivo envolve:
 
 \begin{itemize}
-    \item \textbf{População inicial}: gerada aleatoriamente ou a partir de perfis conhecidos, garantindo diversidade, como explicado em \ref{sec:pontuacao}.
+    \item \textbf{População inicial}: gerada aleatoriamente ou a partir de perfis conhecidos, garantindo diversidade, como explicado em \ref{sub:pontuacao}.
     \item \textbf{Seleção}: indivíduos com melhor desempenho (maior fitness) são escolhidos para reprodução. Métodos comuns incluem roleta, torneio e elitismo, sendo possível ajustar a pressão seletiva conforme desejado \cite{goldberg1989genetic}.
     \item \textbf{Cruzamento (crossover)}: combina características de dois ou mais indivíduos para gerar descendentes, promovendo a exploração do espaço de busca.
     \item \textbf{Mutação}: pequenas alterações aleatórias são aplicadas aos descendentes para evitar estagnação em ótimos locais. Os principais parâmetros de mutação são:
@@ -47,16 +55,31 @@ Já os algoritmos genéticos (AGs) são aplicados para explorar o espaço de sol
 \end{itemize}
 
 Testes preliminares são realizados para definir o número ideal de gerações, o tamanho da população, a taxa de cruzamento e de mutação, bem como para analisar a convergência dos algoritmos \cite{hasan2024, wu2024}. A combinação de IA e algoritmos evolutivos permite uma busca eficiente por soluções ótimas, mesmo em espaços de alta dimensionalidade e com múltiplos objetivos, como ocorre na otimização de perfis aerodinâmicos.
+
+\subsection{Fluxo Metodológico da Otimização}
+O processo de otimização segue os seguintes passos principais:
+
+\begin{enumerate}
+    \item \textbf{Treinamento da Rede Neural:} Simultaneamente à avaliação dos perfis para seleção dos 1\% melhores, todos os aerofólios obtidos (conforme descrito na Seção~\ref{sec:automacao}) são testados no XFOIL. Os dados de entrada e saída dessas simulações são utilizados para treinar a rede neural (RN), utilizando 80\% dos dados para treinamento e 20\% para validação. O treinamento é repetido caso o erro médio nos dados de teste ultrapasse 5\%.
+    \item \textbf{Otimização Evolutiva:} Após o treinamento da rede neural, a otimização dos perfis de asa é conduzida por meio de um algoritmo evolutivo. Os critérios de seleção, cruzamento e mutação são aplicados para gerar novas soluções, e a avaliação dos indivíduos é realizada com base no Score, conforme definido na Seção~\ref{sub:pontuacao}. O processo evolutivo é repetido até que um dos critérios de parada seja alcançado como descrito na Seção~\ref{subsec:otimizacao}.
+\end{enumerate}
+
+Esse fluxo garante integração eficiente entre a avaliação baseada em simulação e a aceleração proporcionada pela inteligência artificial, otimizando o desempenho e a robustez dos resultados.
+
 \section{Metodologia para Otimização de Hélices}
 
 \subsection{Definição das Seções da Hélice}
-A hélice é dividida em no mínimo duas seções: ponta e restante, desconsiderando a raiz circular devido ao uso de materiais compósitos, o que permite maior flexibilidade estrutural e aerodinâmica \cite{raymer2018aircraft}. A possibilidade de expansão futura para três ou mais seções é prevista para aumentar a granularidade da otimização, conforme abordagens recentes \cite{wu2024}.
+A hélice é dividida em no mínimo duas seções: ponta e raiz, desconsiderando o perfil circular na raiz do hub  devido ao uso de materiais compósitos, o que permite maior flexibilidade estrutural e aerodinâmica \cite{raymer2018aircraft}. A possibilidade de expansão futura para três ou mais seções é prevista para aumentar a granularidade da otimização, conforme abordagens recentes \cite{wu2024}.
 
 \subsection{Inputs do Usuário}
-Os inputs necessários para a otimização  das hélices incluem: velocidade de voo, ângulo de incidência, diâmetro, torque, RPM, altitude, número de pás e curva de tração. Recomenda-se o desenvolvimento de uma interface amigável para entrada desses dados, visando minimizar erros de entrada e facilitar a replicação dos experimentos \cite{wu2024, raymer2018aircraft}.
+Os inputs necessários para a otimização  das hélices incluem: velocidade de voo, ângulo de incidência da hélice com a direção do voo, diâmetro, torque, RPM, altitude, número de pás e curva de tração (linear ou logaritimica). Recomenda-se o desenvolvimento de uma interface amigável para entrada desses dados, visando minimizar erros de entrada e facilitar a replicação dos experimentos \cite{wu2024, raymer2018aircraft}.
 
 \subsection{Otimização das Seções}
-Cada seção da hélice é otimizada individualmente, adotando ponta elíptica e proporcionalidade da área das seções à eficiência (\(C_L/C_D\)), conforme práticas consagradas em aerodinâmica \cite{anderson2017fundamentals, abbott1959theory}. A análise de sensibilidade para o número de seções e para a curva de tração é recomendada para avaliar o impacto dessas variáveis no desempenho final \cite{wu2024}.
+Cada seção da hélice é otimizada individualmente, adotando ponta elíptica e proporcionalidade da área das seções à eficiência (\(C_L/C_D\)), conforme práticas consagradas em aerodinâmica \cite{anderson2017fundamentals, abbott1959theory}. A análise de sensibilidade para o número de seções e para a curva de tração é recomendada para avaliar o impacto dessas variáveis no desempenho final \cite{wu2024}. Primeiramente, será dividido o torque máximo ($\tau_{max}$) pelo número de pás que a hélice terá. Depois, será dividio o tamanho da pá em partes iguais, e cada aprte terá um perfil diferente. Com a distância para o Hub da hélice, RPM e a velocidade relativa, podemos calcular a velocidade de cada perfil. Com a velocidade de que cada perfil estará subimetida, podemos calcular o numero de Reynolds e consequentemente o arrasto máximo de cada seção, com a seguinte formula:
+\[
+    \tau_{\text{máx}} = \frac{D_{\text{máx}}\cdot r}{n_{\text{seções}}} 
+\]
+Sendo o $\tau$ o torque do motor, $D$ o arrasto, $r$ o raio para o hub e $n$ o número de seções.
 
 \subsection{Considerações Computacionais}
 A seleção prévia dos melhores perfis por seção pode reduzir significativamente o custo computacional, ao restringir o espaço de busca a soluções promissoras. No entanto, benchmarks devem ser realizados para comparar abordagens alternativas e garantir que não haja perda de diversidade ou qualidade nas soluções finais \cite{oliveira2023, hasan2024}.

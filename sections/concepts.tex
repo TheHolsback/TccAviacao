@@ -32,6 +32,66 @@ Perfis de asas e hélices possuem funções distintas: as asas são projetadas p
 
 As fases do voo — decolagem, cruzeiro e pouso — apresentam requisitos aerodinâmicos distintos. Na decolagem, busca-se máxima sustentação em baixas velocidades; no cruzeiro, prioriza-se eficiência e baixo arrasto; no pouso, a ênfase está na segurança e controle, frequentemente com uso intensivo de flaps e slats \cite{raymer2018aircraft}. Por isso, a otimização do pouso é usualmente excluída em estudos de desempenho global.
 
+\section{Torque}
+\label{sec:torque}
+O torque, também conhecido como momento de força, é um conceito fundamental na engenharia e na física, especialmente em sistemas rotativos como hélices, motores e superfícies de controle de aeronaves. O torque representa a tendência de uma força causar rotação em um corpo em torno de um eixo ou ponto específico.
+
+Matematicamente, o torque (\(\tau\)) é definido como o produto vetorial entre o vetor posição (\(\vec{r}\)), que vai do ponto de rotação até o ponto de aplicação da força, e o vetor força (\(\vec{F}\)):
+\[
+\vec{\tau} = \vec{r} \times \vec{F}
+\]
+O módulo do torque pode ser expresso por:
+\[
+\tau = r \cdot F \cdot \sin(\theta)
+\]
+onde \(r\) é a distância do eixo de rotação ao ponto de aplicação da força, \(F\) é a intensidade da força aplicada e \(\theta\) é o ângulo entre os vetores \(\vec{r}\) e \(\vec{F}\).
+
+No contexto aeronáutico, o torque é especialmente relevante em diversos aspectos:
+\begin{itemize}
+    \item \textbf{Motores e hélices:} O torque gerado pelo motor é transmitido à hélice, que converte esse momento em força propulsora. O desempenho do sistema propulsivo depende diretamente do torque disponível e da rotação do eixo.
+    \item \textbf{Superfícies de controle:} O torque é utilizado para descrever o momento gerado pelas superfícies móveis (como ailerons, leme e profundor) em relação ao centro de gravidade da aeronave, influenciando a estabilidade e a manobrabilidade.
+    \item \textbf{Momentos aerodinâmicos:} Perfis aerodinâmicos geram momentos em torno do seu centro aerodinâmico, conhecidos como momento de pitching, que afetam o equilíbrio longitudinal da aeronave.
+\end{itemize}
+
+A correta análise e dimensionamento do torque são essenciais para garantir a integridade estrutural, o desempenho e a segurança de sistemas aeronáuticos, sendo um parâmetro crítico em projetos de motores, hélices, asas e superfícies de controle \cite{anderson2017fundamentals, raymer2018aircraft}.
+
+\section{Velocidade Relativa em Pontos da Hélice}
+O movimento de uma hélice é caracterizado por uma combinação de rotação em torno do eixo do motor e translação devido ao avanço da aeronave. Dessa forma, cada ponto ao longo da pá da hélice descreve uma trajetória helicoidal no espaço. O cálculo da velocidade relativa do ar em um ponto da hélice é fundamental para a análise aerodinâmica, pois determina o ângulo de ataque local e, consequentemente, a geração de força propulsora.
+
+Considere uma hélice girando com velocidade angular \(\omega\) (em rad/s) e avançando com velocidade \(V\) (em m/s). Para um ponto localizado a uma distância \(r\) do eixo de rotação, a velocidade relativa do ar (\(V_{\text{rel}}\)) é dada pela composição vetorial da velocidade tangencial devido à rotação e da velocidade axial devido ao avanço da aeronave:
+
+\[
+V_{\text{rel}} = \sqrt{V^2 + (\omega r)^2}
+\]
+
+onde:
+\begin{itemize}
+    \item \(V\) é a velocidade de avanço da aeronave (componente axial),
+    \item \(\omega\) é a velocidade tangencial do ponto na pá da hélice,
+    \item \(r\) é a distância do ponto ao eixo de rotação.
+\end{itemize}
+
+O ângulo de fluxo relativo (\(\phi\)) entre a pá da hélice e o escoamento local pode ser calculado por:
+
+\[
+\phi = \arctan\left(\frac{V}{\omega r}\right)
+\]
+
+Esse ângulo é fundamental para determinar o ângulo de ataque local da pá (\(\alpha\)), que é a diferença entre o ângulo geométrico da pá (\(\theta\)) e o ângulo de fluxo relativo (\(\phi\)).
+
+\[
+\alpha = \theta - \phi
+\]
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{figures/helice_velocidade_relativa.png}
+    \caption{Componentes da velocidade relativa em um ponto da pá da hélice: velocidade axial (\(V\)), velocidade tangencial (\(\omega r\)) e velocidade relativa resultante (\(V_{\text{rel}}\)).}
+    \label{fig:helice_velocidade_relativa}
+\end{figure}
+
+O conhecimento da velocidade relativa em cada ponto da hélice é essencial para o correto dimensionamento do passo da pá, otimização do desempenho e análise de cargas aerodinâmicas ao longo do raio da hélice.
+
 \section{Perfis Aerodinâmicos}
 Perfis aerodinâmicos são seções transversais de asas ou hélices, cuja geometria determina o comportamento aerodinâmico do componente. O estudo detalhado dos perfis é fundamental para o projeto de aeronaves, pois influencia diretamente a geração de sustentação, o arrasto, a estabilidade e o controle.
 
@@ -90,7 +150,7 @@ Existem diversos tipos de flaps, cada um com características específicas:
     \label{fig:perfil_flap}
 \end{figure}
 
-O uso de flaps altera significativamente a polar do perfil, elevando o coeficiente de sustentação máximo (\(C_{L_{max}}\)), mas também aumentando o arrasto. A análise detalhada dos perfis aerodinâmicos, incluindo a influência dos flaps e dos parâmetros geométricos, é essencial para a otimização do desempenho em diferentes fases do voo. Estudos clássicos, como os de Abbott e Von Doenhoff \cite{abbott1959theory}, fornecem bases experimentais e teóricas amplamente utilizadas até hoje.
+O uso de flaps altera significativamente a polar do perfil, elevando o coeficiente de sustentação máximo ($C_{L_{max}}$), mas também aumentando o arrasto. A análise detalhada dos perfis aerodinâmicos, incluindo a influência dos flaps e dos parâmetros geométricos, é essencial para a otimização do desempenho em diferentes fases do voo. Estudos clássicos, como os de Abbott e Von Doenhoff \cite{abbott1959theory}, fornecem bases experimentais e teóricas amplamente utilizadas até hoje.
 
 \section{Corda Média Aerodinâmica (MAC)}
 A corda média aerodinâmica (MAC, do inglês \textit{Mean Aerodynamic Chord}) é um conceito fundamental para o projeto e análise de asas, especialmente quando a asa possui geometria não retangular. A MAC representa uma corda fictícia que, se aplicada à asa, teria o mesmo momento aerodinâmico e área que a asa real. Seu cálculo é essencial para determinar o centro de gravidade, o ponto de aplicação das forças aerodinâmicas e para análises de estabilidade longitudinal.
